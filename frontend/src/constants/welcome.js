@@ -1,32 +1,29 @@
 export const welcomeLinesLG = [
-    "Welcome to a world of wild California",
-    "desert with Capsules®, where you will",
-    "discover exquisite nature observing it",
-    "from capsule houses, nestled in the",
-    "one of the most breathtaking",
-    "destination on the United States.",
+    "Welcome to the future of DevOps",
+    "observability with Control Room,",
+    "where AI constructs your dashboard",
+    "based on your intent, removing",
+    "the need for complex menus",
+    "and static configurations.",
 ];
 export const welcomeLinesSM = [
-    "Welcome to a world",
-    "of wild California",
-    "desert with ",
-    "Capsules®, where ",
-    "you will discover ",
-    "exquisite nature",
-    "observing it from",
-    "capsule houses,",
-    "nestled in the one",
-    "of the most",
-    "breathtaking",
-    "destination on the",
-    "United States.",
+    "Welcome to",
+    "the future",
+    "of DevOps",
+    "observability",
+    "with Control",
+    "Room, where",
+    "AI constructs",
+    "your dashboard",
+    "based on",
+    "your intent.",
 ];
 
-export const chooseLinesLG =[
+export const chooseLinesLG = [
     "Choose the one",
     "you like best"
 ];
-export const chooseLinesSM =[
+export const chooseLinesSM = [
     "Choose the",
     "one you like",
     "best"

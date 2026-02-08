@@ -34,12 +34,12 @@ const Welcome = () => {
     });
 
     return (
-        <div className='welcome-section w-full h-[120vh] text-[#2A2725]  md:px-7 px-6 '>
+        <div className='welcome-section w-full h-auto bg-[#181717] md:px-7 px-6 py-10'>
             <div className='flex flex-col gap-2 tracking-[-4] leading-2'>
                 <div className="w-full md:w-[86%] md:text-[64px] text-[34px] welcome-line md:pt-20">
                     <div className="w-full welcome-text flex flex-col justify-center items-start">
                         {welcomeLines.map((text, index) => (
-                            <span key={index} className="relative block text-darkBrown md:tracking-[-0.010em] tracking-[0.015em]">
+                            <span key={index} className="relative block text-[#181717] md:tracking-[-0.010em] tracking-[0.015em]" style={{ lineHeight: '1.05', overflow: 'hidden' }}>
                                 {text}
                                 <span className="clip-text-welcome md:tracking-[-0.010em] tracking-[0.015em]">{text}</span>
                             </span>
@@ -49,13 +49,13 @@ const Welcome = () => {
             </div>
             <div className="flex md:flex-row flex-col justify-between items-center md:p-4 md:mt-20 mt-10">
                 <div className="flex flex-row justify-center items-center gap-1">
-                    <img src={w1} alt="welcome image" className="md:rounded-[8rem] rounded-[9rem] md:w-56 w-44" />
-                    <img src={w2} alt="welcome image" className="md:rounded-[8rem] rounded-[9rem] md:w-56 w-44" />
+                    {/* Images removed for DevOps theme */}
+                    <div className="md:w-96 w-44 h-2 bg-gradient-to-r from-transparent via-[#b1a696] to-transparent opacity-20"></div>
                 </div>
                 <div className="md:w-1/2 w-full md:mt-0 mt-10">
                     <p className="md:text-[2rem] text-[1.4rem] text-[#b1a696] md:leading-[1.1] md:pr-24 font-normal leading-[26px] tracking-[-0.2px]">
-                        <span>A place where you can be with yourself and your loved ones.</span><br />
-                        <span>A place where you can experience unforgettable desert things.</span>
+                        <span>No more navigating through endless menus.</span><br />
+                        <span>Just ask, and the right tools appear instantly.</span>
                     </p>
                 </div>
             </div>

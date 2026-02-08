@@ -85,7 +85,7 @@ const MarqueeText = () => {
     // Create multiple marquee items
     const marqueeItems = Array(6).fill(null).map((_, index) => (
         <div key={index} className="marquee-text-marquee">
-            <h1>Why Capsules®?<span className='star-rotate'>*</span></h1>
+            <h1>Generative UI<span className='star-rotate'>*</span>Tambo SDK<span className='star-rotate'>*</span>AI Ops<span className='star-rotate'>*</span></h1>
         </div>
     ));
 

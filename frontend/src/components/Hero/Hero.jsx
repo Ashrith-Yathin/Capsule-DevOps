@@ -34,7 +34,7 @@ const Hero = () => {
             <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
                 <div className="responsive-mobile">
                     {/* Background image (down layer) */}
-                    <div className="hero-img absolute inset-0 bg-[url('./assets/cap1.png')] bg-no-repeat bg-cover bg-center z-0 md:block hidden" />
+                    <div className="hero-img absolute inset-0 bg-gradient-to-br from-black via-[#1a1a1a] to-[#0f172a] z-0 md:block hidden" />
 
                     {/* Mobile image fallback */}
                     <div className="block lg:hidden mt-6 mb-6">
@@ -58,27 +58,27 @@ const Hero = () => {
                 <div className="p-4 flex flex-col md:justify-center">
                     <div className="relative h-dvh">
                         <h1
-                            className="text-[#f4efe7] text-start text-6xl md:text-9xl font-bold tracking-wider lg:absolute  lg:left-2"
-                            style={{ textShadow: '2px 2px 4px #aaa' }}
+                            className="font-sans text-[#f4efe7] text-start text-6xl md:text-9xl font-bold tracking-wider lg:absolute  lg:left-2"
+                            style={{ textShadow: '2px 2px 4px #aaa', fontFamily: 'Nohemi, sans-serif' }}
                         >
-                            Capsules®
+                            DevOps<br />Control
                         </h1>
 
                         <div className="w-full h-auto absolute  top-24 md:bottom-[8%] lg:bottom-[9%] flex md:flex-row flex-col md:justify-between md:items-end">
                             <h2
-                                className="text-start lg:mt-0 md:text-[#f4efe7] text-[#b1a696] text-2xl font-bold md:tracking-wider leading-5 flex flex-col gap-1"
-                                style={{ textShadow: '2px 2px 4px #000' }}
+                                className="font-sans text-start lg:mt-0 md:text-[#f4efe7] text-[#b1a696] text-2xl font-bold md:tracking-wider leading-5 flex flex-col gap-1"
+                                style={{ textShadow: '2px 2px 4px #000', fontFamily: 'Nohemi, sans-serif' }}
                             >
-                                <span>Closer to</span>
-                                <span>Nature—Closer</span>
-                                <span>to Yourself</span>
+                                <span>Generative UI</span>
+                                <span>for Modern</span>
+                                <span>Engineering</span>
                             </h2>
 
                             <p
                                 className="md:w-[20%] w-[80%] text-[#f4efe7] text-[0.7rem] font-bold  md:font-medium tracking-wide lg:text-end mt-2 text-justify"
                                 style={{ textShadow: '2px 2px 4px #000' }}
                             >
-                                Spend unforgettable and remarkable time in the Californian desert with—Capsules.
+                                Stop building static dashboards. Let AI assemble your observability tools based on intent.
                             </p>
                         </div>
                     </div>

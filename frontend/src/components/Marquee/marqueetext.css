@@ -3,6 +3,8 @@
 .marquee-text-container {
     display: flex;
     align-items: center;
+    padding: 1rem 0;
+    margin: 0;
 }
 
 .marquee-text-move {

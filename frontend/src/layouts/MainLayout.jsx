@@ -28,7 +28,7 @@ const MainLayout = () => {
 
     return (
         <>
-            <PreloaderII />
+            {/* Preloader removed for faster navigation */}
             <Logo />
             <ReserveBtn />
             <Navbar />
