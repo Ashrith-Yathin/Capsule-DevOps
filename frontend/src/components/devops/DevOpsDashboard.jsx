@@ -47,10 +47,8 @@ const DevOpsDashboard = () => {
         if (!input.trim()) return;
 
         // Don't block if we're just thinking
-        if (streaming) {
-            console.warn('Still streaming, please wait');
-            return;
-        }
+        // Removed blocking check to prevent stuck state
+        // if (streaming) { ... }
 
         try {
             // Include project context in the message
