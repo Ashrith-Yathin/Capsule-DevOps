@@ -20,19 +20,25 @@ const MOCK_REPOS = [
 ];
 
 export const ProjectProvider = ({ children }) => {
-    const [currentProject, setCurrentProject] = useState(MOCK_REPOS[0]);
-    const [connectedRepos, setConnectedRepos] = useState(MOCK_REPOS);
-    const [isGitHubConnected, setIsGitHubConnected] = useState(true); // Auto-connected for demo
+    const [currentProject, setCurrentProject] = useState(null);
+    const [connectedRepos, setConnectedRepos] = useState([]);
+    const [isGitHubConnected, setIsGitHubConnected] = useState(false); // Start disconnected
 
     const selectProject = (project) => {
         setCurrentProject(project);
     };
 
     const connectGitHub = () => {
-        // For hackathon: Just set connected to true
-        // In production: Initiate GitHub OAuth flow
+        // For demo: Show mock repos when "connected"
         setIsGitHubConnected(true);
         setConnectedRepos(MOCK_REPOS);
+        setCurrentProject(MOCK_REPOS[0]);
+    };
+
+    const disconnectGitHub = () => {
+        setIsGitHubConnected(false);
+        setConnectedRepos([]);
+        setCurrentProject(null);
     };
 
     const value = {
@@ -41,6 +47,7 @@ export const ProjectProvider = ({ children }) => {
         isGitHubConnected,
         selectProject,
         connectGitHub,
+        disconnectGitHub,
     };
 
     return (

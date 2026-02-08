@@ -3,8 +3,20 @@ import { useProject } from '../../contexts/ProjectContext';
 import { ChevronDown, Github } from 'lucide-react';
 
 const ProjectSelector = () => {
-    const { currentProject, connectedRepos, selectProject } = useProject();
+    const { currentProject, connectedRepos, isGitHubConnected, selectProject, connectGitHub } = useProject();
     const [isOpen, setIsOpen] = useState(false);
+
+    if (!isGitHubConnected) {
+        return (
+            <button
+                onClick={connectGitHub}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            >
+                <Github className="w-4 h-4 text-white" />
+                <span className="text-sm text-white font-medium">Connect GitHub</span>
+            </button>
+        );
+    }
 
     return (
         <div className="relative">
@@ -13,7 +25,7 @@ const ProjectSelector = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-gray-800/60 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
             >
                 <Github className="w-4 h-4 text-gray-400" />
-                <span className="text-sm text-gray-200 font-medium">{currentProject.name}</span>
+                <span className="text-sm text-gray-200 font-medium">{currentProject?.name}</span>
                 <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -35,7 +47,7 @@ const ProjectSelector = () => {
                                         selectProject(repo);
                                         setIsOpen(false);
                                     }}
-                                    className={`w-full text-left px-4 py-2.5 hover:bg-gray-800/50 transition-colors ${currentProject.id === repo.id ? 'bg-gray-800/50' : ''
+                                    className={`w-full text-left px-4 py-2.5 hover:bg-gray-800/50 transition-colors ${currentProject?.id === repo.id ? 'bg-gray-800/50' : ''
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
