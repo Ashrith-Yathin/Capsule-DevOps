@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { initLenis } from "../lib/lenis";
 import Preloader from "../components/Preloader/Preloader";
 import PreloaderII from "../components/Preloader/PreloaderII";
-import ReserveBtn from "../components/Buttons/ReserveBtn";
+import AuthButton from "../components/Buttons/AuthButton";
 import Logo from "../components/Buttons/Logo";
 import Footer from "../components/Footer/Footer";
 import FooterTitle from "../components/Footer/FooterTitle";
@@ -30,7 +30,7 @@ const MainLayout = () => {
         <>
             {/* Preloader removed for faster navigation */}
             <Logo />
-            <ReserveBtn />
+            <AuthButton />
             <Navbar />
             <div id="smooth-wrapper">
                 <div id="smooth-content">

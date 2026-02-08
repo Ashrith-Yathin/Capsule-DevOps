@@ -6,27 +6,20 @@ import { IncidentAlert } from '../components/devops/IncidentAlert';
 export const components = [
     {
         name: 'LatencyChart',
-        description: 'Displays a line chart of latency metrics for a specific service over time. Use this when the user asks for performance trends, latency spikes, or response times.',
+        description: 'Displays a line chart of latency metrics for the current project over time. Use this when the user asks for performance trends, latency spikes, or response times. Data is automatically fetched based on the selected project.',
         component: LatencyChart,
         propsSchema: z.object({
-            serviceName: z.string().describe('The name of the service to show latency for (e.g., "auth-service", "database", "frontend")'),
-            data: z.array(z.object({
-                time: z.string(),
-                value: z.number()
-            })).describe('Array of data points with time and latency value in ms')
+            projectId: z.string().describe('The ID of the project to fetch latency data for'),
+            projectName: z.string().describe('The name of the project being monitored')
         })
     },
     {
         name: 'DeploymentTable',
-        description: 'Shows a list of recent deployments and their status. Use this when the user asks about deployment history, recent changes, or build status.',
+        description: 'Shows a list of recent deployments for the current project. Use this when the user asks about deployment history, recent changes, or build status. Data is automatically fetched based on the selected project.',
         component: DeploymentTable,
         propsSchema: z.object({
-            deployments: z.array(z.object({
-                id: z.string(),
-                service: z.string(),
-                status: z.enum(['success', 'failed', 'pending']),
-                time: z.string()
-            })).describe('List of deployment records')
+            projectId: z.string().describe('The ID of the project to fetch deployments for'),
+            projectName: z.string().describe('The name of the project being deployed')
         })
     },
     {

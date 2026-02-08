@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTambo } from '@tambo-ai/react';
 import { Send } from 'lucide-react';
 import { components } from '../../lib/tambo';
+import { useProject } from '../../contexts/ProjectContext';
+import ProjectSelector from '../projects/ProjectSelector';
 
 const DevOpsDashboard = () => {
     const tamboHook = useTambo();
@@ -11,6 +13,8 @@ const DevOpsDashboard = () => {
         streaming,
         isIdle
     } = tamboHook;
+
+    const { currentProject } = useProject();
 
     const messages = thread?.messages || [];
     // Only show thinking if actively streaming AND there are messages being generated
@@ -32,7 +36,11 @@ const DevOpsDashboard = () => {
         if (!input.trim() || isThinking) return;
 
         try {
-            sendThreadMessage(input);
+            // Include project context in the message
+            const userMessage = input;
+            const contextualMessage = `[Project: ${currentProject.name} (ID: ${currentProject.id})] ${userMessage}`;
+
+            sendThreadMessage(contextualMessage);
             setInput('');
         } catch (error) {
             console.error("Error sending message:", error);
@@ -62,6 +70,7 @@ const DevOpsDashboard = () => {
                             </div>
                         </div>
                     </div>
+                    <ProjectSelector />
                 </div>
             </header>
 
@@ -141,10 +150,10 @@ const DevOpsDashboard = () => {
                     )}
                     <div ref={messagesEndRef} />
                 </div>
-            </main>
+            </main >
 
             {/* Input Area */}
-            <div className="p-6 pb-8">
+            < div className="p-6 pb-8" >
                 <form
                     onSubmit={handleSubmit}
                     className="max-w-4xl mx-auto relative flex items-center gap-3 bg-gray-900/80 backdrop-blur-sm rounded-full px-6 py-4 shadow-lg border border-gray-800"
@@ -172,8 +181,8 @@ const DevOpsDashboard = () => {
                         <Send size={18} />
                     </button>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
