@@ -11,7 +11,8 @@ const DevOpsDashboard = () => {
         thread,
         sendThreadMessage,
         streaming,
-        isIdle
+        isIdle,
+        stop // Attempt to get stop function
     } = tamboHook;
 
     const { currentProject } = useProject();
@@ -73,8 +74,8 @@ const DevOpsDashboard = () => {
                             <div className="text-sm text-gray-400">
                                 {messages.length > 0 ? (
                                     <div className="flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                                        <span className="text-green-400">Active Session</span>
+                                        <span className={`w-2 h-2 rounded-full ${streaming ? 'bg-green-500 animate-pulse' : 'bg-green-500'}`}></span>
+                                        <span className="text-green-400">{streaming ? 'Generating...' : 'Active Session'}</span>
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-2">
@@ -83,6 +84,25 @@ const DevOpsDashboard = () => {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Manual Controls */}
+                            {streaming && (
+                                <button
+                                    onClick={() => stop && stop()}
+                                    className="p-1.5 hover:bg-red-500/20 rounded bg-gray-800 text-xs text-red-400 border border-red-500/30 transition-colors"
+                                    title="Stop generating"
+                                >
+                                    Stop
+                                </button>
+                            )}
+
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="p-1.5 hover:bg-gray-700 rounded bg-gray-800 text-xs text-gray-400 border border-gray-700 transition-colors"
+                                title="Reset Chat"
+                            >
+                                Reset
+                            </button>
                         </div>
                     </div>
                     <ProjectSelector />
