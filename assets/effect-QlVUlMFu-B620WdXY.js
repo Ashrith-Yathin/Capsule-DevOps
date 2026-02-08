@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DPMmz4f6.js","assets/index-DkoCiFCP.css"])))=>i.map(i=>d[i]);
+import{_ as n,M as r}from"./index-DPMmz4f6.js";async function c(){try{const{JSONSchema:t}=await n(async()=>{const{JSONSchema:e}=await import("./index-DPMmz4f6.js").then(a=>a.e8);return{JSONSchema:e}},__vite__mapDeps([0,1]));return e=>t.make(e)}catch{throw new r("effect")}}export{c as default};
