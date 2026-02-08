@@ -17,8 +17,8 @@ const DevOpsDashboard = () => {
     const { currentProject } = useProject();
 
     const messages = thread?.messages || [];
-    // Only show thinking if actively streaming AND there are messages being generated
-    const isThinking = streaming === true && messages.length > 0 && messages[messages.length - 1]?.role !== 'user';
+    // Only show thinking if streaming AND we have messages
+    const isThinking = streaming === true && messages.length > 0;
 
     const [input, setInput] = useState('');
     const messagesEndRef = useRef(null);
@@ -31,9 +31,26 @@ const DevOpsDashboard = () => {
         scrollToBottom();
     }, [messages, isThinking]);
 
+    // Debug: Log Tambo state
+    useEffect(() => {
+        console.log('Tambo State:', {
+            streaming,
+            isIdle,
+            isThinking,
+            messageCount: messages.length,
+            lastMessage: messages[messages.length - 1]
+        });
+    }, [streaming, isIdle, messages.length]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!input.trim() || isThinking) return;
+        if (!input.trim()) return;
+
+        // Don't block if we're just thinking
+        if (streaming) {
+            console.warn('Still streaming, please wait');
+            return;
+        }
 
         try {
             // Include project context in the message
@@ -175,7 +192,7 @@ const DevOpsDashboard = () => {
                     />
                     <button
                         type="submit"
-                        disabled={!input.trim() || isThinking}
+                        disabled={!input.trim()}
                         className="bg-gray-100 text-gray-900 rounded-full p-2 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:bg-white"
                     >
                         <Send size={18} />
