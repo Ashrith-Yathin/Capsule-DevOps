@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-Cdw3RcKd.js","assets/index-BMAadBbW.css"])))=>i.map(i=>d[i]);
+import{_ as e,M as n}from"./index-Cdw3RcKd.js";async function s(){try{const{toJsonSchema:t}=await e(async()=>{const{toJsonSchema:o}=await import("./index-Cdw3RcKd.js").then(a=>a.ea);return{toJsonSchema:o}},__vite__mapDeps([0,1]));return t}catch{throw new n("@valibot/to-json-schema")}}export{s as default};
