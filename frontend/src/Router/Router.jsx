@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
 
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
@@ -22,14 +23,32 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <ControlRoomLayout />,
+        element: (
+            <>
+                <SignedIn>
+                    <ControlRoomLayout />
+                </SignedIn>
+                <SignedOut>
+                    <RedirectToSignIn />
+                </SignedOut>
+            </>
+        ),
         children: [
             { index: true, element: <DevOpsDashboard /> },
         ]
     },
     {
         path: "/capsule/dashboard",
-        element: <ControlRoomLayout />,
+        element: (
+            <>
+                <SignedIn>
+                    <ControlRoomLayout />
+                </SignedIn>
+                <SignedOut>
+                    <RedirectToSignIn />
+                </SignedOut>
+            </>
+        ),
         children: [
             { index: true, element: <DevOpsDashboard /> },
         ]
