@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTambo } from '@tambo-ai/react';
-import { Send } from 'lucide-react';
+import { Send, Home } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { components } from '../../lib/tambo';
 import { useProject } from '../../contexts/ProjectContext';
 import ProjectSelector from '../projects/ProjectSelector';
@@ -16,13 +17,35 @@ const DevOpsDashboard = () => {
     } = tamboHook;
 
     const { currentProject } = useProject();
+    const navigate = useNavigate();
 
     const messages = thread?.messages || [];
-    // Only show thinking if streaming AND we have messages
-    const isThinking = streaming === true && messages.length > 0;
+
+    // Safety mechanism: If streaming lasts too long (stuck), stop showing dots
+    const [isStuck, setIsStuck] = useState(false);
+
+    useEffect(() => {
+        let timeout;
+        if (streaming) {
+            setIsStuck(false);
+            // If still streaming after 15 seconds, assume stuck and hide dots
+            timeout = setTimeout(() => setIsStuck(true), 15000);
+        }
+        return () => clearTimeout(timeout);
+    }, [streaming]);
+
+    // Only show thinking if streaming AND not idle AND not stuck
+    const isThinking = streaming === true && !isIdle && !isStuck && messages.length > 0;
 
     const [input, setInput] = useState('');
     const messagesEndRef = useRef(null);
+
+    // URL Cleaner: Ensure we stay on a clean URL
+    useEffect(() => {
+        if (window.location.search || window.location.hash) {
+            window.history.replaceState({}, '', '/dashboard');
+        }
+    }, []);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,10 +61,11 @@ const DevOpsDashboard = () => {
             streaming,
             isIdle,
             isThinking,
+            isStuck,
             messageCount: messages.length,
             lastMessage: messages[messages.length - 1]
         });
-    }, [streaming, isIdle, messages.length]);
+    }, [streaming, isIdle, isStuck, messages.length]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -68,41 +92,50 @@ const DevOpsDashboard = () => {
             {/* Status Navbar */}
             <header className="p-5 border-b border-gray-800 bg-gradient-to-r from-[#1a1a1a] to-[#151515]">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-100 mb-1">Control Room</h2>
-                        <div className="flex items-center gap-3">
-                            <div className="text-sm text-gray-400">
-                                {messages.length > 0 ? (
-                                    <div className="flex items-center gap-2">
-                                        <span className={`w-2 h-2 rounded-full ${streaming ? 'bg-green-500 animate-pulse' : 'bg-green-500'}`}></span>
-                                        <span className="text-green-400">{streaming ? 'Generating...' : 'Active Session'}</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-gray-600"></span>
-                                        <span className="text-gray-500">Ready</span>
-                                    </div>
+                    <div className="flex items-center gap-4">
+                        <Link
+                            to="/"
+                            className="p-2 bg-gray-800/60 hover:bg-gray-700/80 rounded-lg text-gray-400 hover:text-white transition-all border border-transparent hover:border-gray-600"
+                            title="Back to Home"
+                        >
+                            <Home size={18} />
+                        </Link>
+                        <div>
+                            <h2 className="text-lg font-semibold text-gray-100 mb-1">Control Room</h2>
+                            <div className="flex items-center gap-3">
+                                <div className="text-sm text-gray-400">
+                                    {messages.length > 0 ? (
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${streaming ? 'bg-green-500 animate-pulse' : 'bg-green-500'}`}></span>
+                                            <span className="text-green-400">{streaming ? 'Generating...' : 'Active Session'}</span>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-gray-600"></span>
+                                            <span className="text-gray-500">Ready</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Manual Controls */}
+                                {streaming && (
+                                    <button
+                                        onClick={() => stop && stop()}
+                                        className="p-1.5 hover:bg-red-500/20 rounded bg-gray-800 text-xs text-red-400 border border-red-500/30 transition-colors"
+                                        title="Stop generating"
+                                    >
+                                        Stop
+                                    </button>
                                 )}
-                            </div>
 
-                            {/* Manual Controls */}
-                            {streaming && (
                                 <button
-                                    onClick={() => stop && stop()}
-                                    className="p-1.5 hover:bg-red-500/20 rounded bg-gray-800 text-xs text-red-400 border border-red-500/30 transition-colors"
-                                    title="Stop generating"
+                                    onClick={() => window.location.reload()}
+                                    className="p-1.5 hover:bg-gray-700 rounded bg-gray-800 text-xs text-gray-400 border border-gray-700 transition-colors"
+                                    title="Reset Chat"
                                 >
-                                    Stop
+                                    Reset
                                 </button>
-                            )}
-
-                            <button
-                                onClick={() => window.location.reload()}
-                                className="p-1.5 hover:bg-gray-700 rounded bg-gray-800 text-xs text-gray-400 border border-gray-700 transition-colors"
-                                title="Reset Chat"
-                            >
-                                Reset
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <ProjectSelector />
