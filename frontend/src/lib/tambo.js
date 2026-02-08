@@ -9,8 +9,8 @@ export const components = [
         description: 'Displays a line chart of latency metrics for the current project over time. Use this when the user asks for performance trends, latency spikes, or response times. Data is automatically fetched based on the selected project.',
         component: LatencyChart,
         propsSchema: z.object({
-            projectId: z.string().describe('The ID of the project to fetch latency data for'),
-            projectName: z.string().describe('The name of the project being monitored')
+            projectId: z.string().optional().describe('The ID of the project to fetch latency data for. Defaults to current project if not specified.'),
+            projectName: z.string().optional().describe('The name of the project. Defaults to current project if not specified.')
         })
     },
     {
@@ -18,8 +18,8 @@ export const components = [
         description: 'Shows a list of recent deployments for the current project. Use this when the user asks about deployment history, recent changes, or build status. Data is automatically fetched based on the selected project.',
         component: DeploymentTable,
         propsSchema: z.object({
-            projectId: z.string().describe('The ID of the project to fetch deployments for'),
-            projectName: z.string().describe('The name of the project being deployed')
+            projectId: z.string().optional().describe('The ID of the project to fetch deployments for. Defaults to current project if not specified.'),
+            projectName: z.string().optional().describe('The name of the project. Defaults to current project if not specified.')
         })
     },
     {

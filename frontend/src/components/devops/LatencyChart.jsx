@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { fetchLatency } from '../../api/mockBackend';
+import { useProject } from '../../contexts/ProjectContext';
 
 export const LatencyChart = ({ projectId, projectName }) => {
+  const { currentProject } = useProject();
+
+  // Use props if provided, otherwise fallback to context
+  const effectiveProjectId = projectId || currentProject?.id;
+  const effectiveProjectName = projectName || currentProject?.name;
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (projectId) {
-      const latencyData = fetchLatency(projectId);
+    if (effectiveProjectId) {
+      const latencyData = fetchLatency(effectiveProjectId);
       setData(latencyData);
     }
-  }, [projectId]);
+  }, [effectiveProjectId]);
 
   return (
     <div className="bg-black/90 border border-green-500/30 p-4 rounded-lg shadow-[0_0_15px_rgba(34,197,94,0.1)] backdrop-blur-sm">
       <h3 className="text-green-400 font-mono text-sm mb-4 flex items-center gap-2 uppercase tracking-wider">
         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></span>
-        LATENCY_METRICS::{projectName || 'SYSTEM'}
+        LATENCY_METRICS::{effectiveProjectName || 'SYSTEM'}
       </h3>
       <div className="h-64 w-full">
         {data.length > 0 ? (
@@ -61,7 +68,7 @@ export const LatencyChart = ({ projectId, projectName }) => {
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex items-center justify-center text-green-500/40 text-sm font-mono">
-            No latency data available for {projectName}
+            No latency data available for {effectiveProjectName}
           </div>
         )}
       </div>

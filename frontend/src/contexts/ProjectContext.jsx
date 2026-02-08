@@ -20,25 +20,48 @@ const MOCK_REPOS = [
 ];
 
 export const ProjectProvider = ({ children }) => {
-    const [currentProject, setCurrentProject] = useState(null);
-    const [connectedRepos, setConnectedRepos] = useState([]);
-    const [isGitHubConnected, setIsGitHubConnected] = useState(false); // Start disconnected
+    // Initialize state from localStorage
+    const [currentProject, setCurrentProject] = useState(() => {
+        const saved = localStorage.getItem('currentProject');
+        return saved ? JSON.parse(saved) : null;
+    });
+    const [connectedRepos, setConnectedRepos] = useState(() => {
+        const saved = localStorage.getItem('connectedRepos');
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [isGitHubConnected, setIsGitHubConnected] = useState(() => {
+        return localStorage.getItem('isGitHubConnected') === 'true';
+    });
 
     const selectProject = (project) => {
         setCurrentProject(project);
+        localStorage.setItem('currentProject', JSON.stringify(project));
     };
 
     const connectGitHub = () => {
         // For demo: Show mock repos when "connected"
+        const repos = MOCK_REPOS;
+        const initialProject = MOCK_REPOS[0];
+
         setIsGitHubConnected(true);
-        setConnectedRepos(MOCK_REPOS);
-        setCurrentProject(MOCK_REPOS[0]);
+        setConnectedRepos(repos);
+        setCurrentProject(initialProject);
+
+        // Persist to localStorage
+        localStorage.setItem('isGitHubConnected', 'true');
+        localStorage.setItem('connectedRepos', JSON.stringify(repos));
+        localStorage.setItem('currentProject', JSON.stringify(initialProject));
     };
 
     const disconnectGitHub = () => {
         setIsGitHubConnected(false);
         setConnectedRepos([]);
         setCurrentProject(null);
+
+        // Clear localStorage
+        localStorage.removeItem('isGitHubConnected');
+        localStorage.removeItem('connectedRepos');
+        localStorage.removeItem('currentProject');
     };
 
     const value = {

@@ -2,23 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
 import { clsx } from 'clsx';
 import { fetchDeployments } from '../../api/mockBackend';
+import { useProject } from '../../contexts/ProjectContext';
 
 export const DeploymentTable = ({ projectId, projectName }) => {
+    const { currentProject } = useProject();
+
+    // Use props if provided, otherwise fallback to context
+    const effectiveProjectId = projectId || currentProject?.id;
+    const effectiveProjectName = projectName || currentProject?.name;
+
     const [deployments, setDeployments] = useState([]);
 
     useEffect(() => {
-        if (projectId) {
-            const data = fetchDeployments(projectId);
+        if (effectiveProjectId) {
+            const data = fetchDeployments(effectiveProjectId);
             setDeployments(data);
         }
-    }, [projectId]);
+    }, [effectiveProjectId]);
 
     return (
         <div className="bg-black/90 border border-blue-500/30 rounded-lg overflow-hidden shadow-[0_0_15px_rgba(59,130,246,0.1)] backdrop-blur-sm">
             <div className="px-4 py-3 border-b border-blue-500/20 bg-blue-500/5 flex items-center justify-between">
                 <h3 className="text-blue-400 font-mono text-sm tracking-wider flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-sm"></span>
-                    DEPLOYMENT_LOG: {projectName || 'Loading...'}
+                    DEPLOYMENT_LOG: {effectiveProjectName || 'Loading...'}
                 </h3>
                 <div className="text-[10px] text-blue-500/60 font-mono">
                     SYNCED: {new Date().toLocaleTimeString()}
@@ -60,7 +67,7 @@ export const DeploymentTable = ({ projectId, projectName }) => {
                         )) : (
                             <tr>
                                 <td colSpan="4" className="px-4 py-8 text-center text-blue-500/40 text-sm">
-                                    No deployments found for {projectName}
+                                    No deployments found for {effectiveProjectName}
                                 </td>
                             </tr>
                         )}
